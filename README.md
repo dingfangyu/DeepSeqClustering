@@ -16,4 +16,4 @@ Please refer to [Google Drive link](https://drive.google.com/drive/folders/0Bwqm
 - Neural Relational Inference for Interacting Systems (ICML 2018)
 - Inductive Representation Learning on Temporal Graphs (ICLR 2020)
 - Transformer Hawkes Process (ICML 2020)
-- c-NTPP: Learning Cluster-Aware Neural Temporal Point Process (AAAI 2023)
+- c-NTPP: Learning Cluster-Aware Neural Temporal Point Process (AAAI 2023, **ours**)
