@@ -24,9 +24,9 @@ Please refer to [Google Drive link](https://drive.google.com/drive/folders/0Bwqm
 
 In this repo we implement modules:
 
-- neural event embedding ([models/eemb.py]())
-- neural temporal point process ([models/tpp.py]())
-- cluster aware self attention & transformer ([models/ctfm.py]())
+- neural event embedding ([models/eemb.py](models/eemb.py))
+- neural temporal point process ([models/tpp.py](models/tpp.py))
+- cluster aware self attention & transformer ([models/ctfm.py](models/ctfm.py))
 
 Pseudo code for the sequential variational autoencoder:
 
