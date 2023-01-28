@@ -34,16 +34,18 @@ Pseudo code for the sequential variational autoencoder:
 # X: input sequence with shape (length, embedding_dim)
 # q: posterior distribution parameter with shape (length, cluster_num)
 # Z: sequence-decomposition 1-of-K categorical sampling result
+# h: history embedding for each event with shape (length, hidden_dim)
 
 # --- Encoder (Inference)
 q = TfmEnc(X) # transformer encoder
 Z = gumble_softmax(q, hard=True)
 
 # --- Decoder (Reconstruction)
-likelihood = cTfmEnc(X, Z) # cluster-aware transformer encoder
+h = cTfmEnc(X, Z) # cluster-aware transformer encoder
+likelihood = TPP(X, h) # temporal point process model with neural intensity
 kld = KLD(q, prior)
 
-elbo = likelihood - kld
+elbo = likelihood - kld * beta
 ```
 
 We also develop a differentiable **cluster aware self attention** module, by utilizing the categorical variable **Z**, we modify the classic self attention module to compute the representation for each event based on the events in the same cluster:
