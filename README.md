@@ -41,7 +41,7 @@ q = TfmEnc(X) # transformer encoder
 Z = gumble_softmax(q, hard=True)
 
 # --- Decoder (Reconstruction)
-h = cTfmEnc(X, Z) # cluster-aware transformer encoder
+h = cTfmEnc(X, Z) # cluster(Z)-aware transformer encoder
 likelihood = TPP(X, h) # temporal point process model with neural intensity
 kld = KLD(q, prior)
 
@@ -51,7 +51,8 @@ elbo = likelihood - kld * beta
 We also develop a differentiable **cluster aware self attention** module, by utilizing the categorical variable **Z**, we modify the classic self attention module to compute the representation for each event based on the events in the same cluster:
 
 ```python
-# input: (Q, K, V), Z
+# input: X, Z
+Q, K, V = W_Q(X), W_K(X), W_V(X)
 out = norm(Z @ Z.T * softmax(QK^T / \sqrt{d})) @ V
 ```
 
