@@ -56,6 +56,9 @@ Q, K, V = W_Q(X), W_K(X), W_V(X)
 out = norm(Z @ Z.T * softmax(QK^T / \sqrt{d})) @ V
 ```
 
+### Visualization
+![visualization of decompositional latent variable Z](vis.png)
+
 ### Requirements
 
 ```
