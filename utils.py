@@ -71,12 +71,13 @@ def get_time_scale(trainloader):
     return torch.stack(l).mean()
 
 
-def get_last_event_info(h, t, z):
+
+def get_last_event_info(h, times, z, pad_mask, K):
     """
     find the last event in the same cluster
     """
     clusters = z.argmax(-1)
-    clusters_indices = torch.nonzero(clusters == rearrange(torch.arange(opt.n_comps), '(k a b) -> k a b ', a=1, b=1), as_tuple=False) # k_id, b_id, s_id
+    clusters_indices = torch.nonzero(clusters == rearrange(torch.arange(K), '(k a b) -> k a b ', a=1, b=1), as_tuple=False) # k_id, b_id, s_id
     
     is_first_event = (clusters_indices[1:, 0] != clusters_indices[:-1, 0]) | (clusters_indices[1:, 1] != clusters_indices[:-1, 1]) 
     is_first_event = torch.cat([torch.tensor([True]).to(is_first_event.device), is_first_event])
@@ -98,3 +99,24 @@ def get_last_event_info(h, t, z):
     dt_last = times - t_last
     
     return h_last, dt_last, first_event_mask
+
+def rearrange_zi(z, opt):
+    idx_ks = []
+    for k in range(opt.n_comps):
+        idx_k = torch.where(z == k)
+        idx_ks.append(idx_k)
+
+    def key_func(x):
+        return x[0][0] if len(x[0]) else 99999
+    sorted_idx = sorted(idx_ks, key=key_func)
+    
+    for k in range(opt.n_comps):
+        z[sorted_idx[k]] = k
+        
+    return z
+
+def rearrange_z(z, opt):
+    for i in range(z.shape[0]):
+        zi = rearrange_zi(z[i], opt)
+        z[i] = zi
+    return z
