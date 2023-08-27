@@ -1,0 +1,5 @@
+einops==0.4.1
+matplotlib==3.3.4
+numpy==1.19.5
+torch==1.8.2+pai
+tqdm==4.64.0
